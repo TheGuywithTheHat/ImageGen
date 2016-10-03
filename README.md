@@ -15,6 +15,10 @@ The extreme variation comes from the many different ways to
  - select which pixel to color next.
  - select the color to use, based on the previous color.
 
+## Understanding the Code
+
+If you want to try to understand the code, I tried to document it a bit. `ImageGen.pde` is the entry point of the program, `Colorizer.pde` has the code that starts the algoritm in another thread, `ColorGenerators.pde` has the code that generates palletes, `DistCalculators.pde` contains the many methods to compare two colors, `Blob.pde` has the class representing a growing blob of pixels, and `Helpers.pde` contains various small classes to just better organize data.
+
 ## Method
 
 ### Definitions
