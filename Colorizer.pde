@@ -1,8 +1,10 @@
 import java.util.Arrays;
 
+
+// contains the thread that does the actual generating
 class Colorizer implements Runnable {
   Thread t;
-  color def = 0;
+  color def = 0; // the default/"blank" color
   List<Blob> blobs;
   
   Colorizer() {
@@ -15,13 +17,15 @@ class Colorizer implements Runnable {
   }
   
   void run() {
-    
+    // these generate all the palletes
     Palette reds = reds();
     Palette bw = blackWhite();
     Palette gray = grayscale();
     Palette blue = bluescale();
     Palette greens = greens();
     Palette rainbow = hbRainbow();
+    
+    // these create all the blobs
     
     blobs.add(new Blob(rainbow, basicDistc, width / 2, height / 2));
     
@@ -44,7 +48,7 @@ class Colorizer implements Runnable {
         {width / 2 - 1, height / 2 - 1}
       }));*/
     
-    while(blobs.size() > 0) {
+    while(blobs.size() > 0) { // while there are still blobs that can grow, grow each blob by one pixel
       for(int i = 0; i < blobs.size(); i++) {
         blobs.get(i).tick();
         if(!blobs.get(i).canGrow) {

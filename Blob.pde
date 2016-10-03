@@ -1,11 +1,12 @@
+// represents a single initial pixel or a collection of initial pixels, as well as all the pixels generated from the initial
 class Blob {
-  Palette palette;
-  List<Location> locs = new ArrayList((width + height) * 2);
-  DistCalculator distc;
-  float growthRate = 1;
-  boolean canGrow = true;
+  Palette palette; // the list of colors to use
+  List<Location> locs = new ArrayList((width + height) * 2); // the list of locations that can have a pixel generated on the next tick. I call these "nexels" (next-pixels)
+  DistCalculator distc; // the method to select what color to use for the next pixel
+  float growthRate = 1; // how fast the blob grows. 1.0 == every tick, 0.0 == never
+  boolean canGrow = true; // whether or not there are both colors left in the pallete *and* pixels left to color
   
-  Blob() {
+  Blob() { // initializes with default for everything
     init();
   }
   
@@ -25,7 +26,7 @@ class Blob {
     init();
   }
   
-  Blob(Palette palette, DistCalculator distc, int[][] positions) {
+  Blob(Palette palette, DistCalculator distc, int[][] positions) { // sets multiple initial pixels
     this.palette = palette;
     this.distc = distc;
     for(int[] pos : positions) {
@@ -34,14 +35,14 @@ class Blob {
     init();
   }
   
-  Blob(Palette palette, DistCalculator distc, int x, int y) {
+  Blob(Palette palette, DistCalculator distc, int x, int y) { // sets a single initial pixel
     this.palette = palette;
     this.distc = distc;
     addPixel(x, y, r.nextInt(palette.colors.length));
     init();
   }
   
-  void init() {
+  void init() { // initializes the blob with defaults, if not yet set
     if(palette == null) {
       palette = hbRainbow();
     }
@@ -60,25 +61,29 @@ class Blob {
     }
   }
   
-  void tick() {
-    if(locs.size() == 0 || palette.colors.length == 0) {
+  void tick() { // runs every frame
+    if(locs.size() == 0 || palette.colors.length == 0) { // if no colors or nexels left, can't grow any more
       canGrow = false;
       return;
     }
-    if(random(1.0) < growthRate) {
-      //addPixel(r.nextInt(locs.size()));
-      addPixel(constrain(locs.size() - 1 - r.nextInt(8), 0, locs.size() - 1));
+    if(random(1.0) < growthRate) { // color the next nexel. there are many way to select which nexel is the "next"
+      //addPixel(r.nextInt(locs.size())); // selects a completely random nexel
+      //addPixel(r.nextInt(locs.size() - 1)); // selects the newest nexel
+      //addPixel(0); // selects the oldest nexel
+      addPixel(constrain(locs.size() - 1 - r.nextInt(8), 0, locs.size() - 1)); // selects one of the most recent nexels, resulting a close approximation of brownian motion
     }
-    if(palette.colors.length == 0) {
+    if(palette.colors.length == 0) { // if we just used the last color, can't grow any more
       canGrow = false;
       return;
     }
   }
     
-  void addPixel(int loc) {
+  void addPixel(int loc) { // colors the pixel at the given index in the array of nexels
     int x = locs.get(loc).x;
     int y = locs.get(loc).y;
     color pc = locs.get(loc).c;
+    
+    // the following shenanigans make that if there are multiple possible colors with the same "distance," we don't always select the first one.
     
     float diff = Float.MAX_VALUE;
     int[] candidates = {-1, -1};
@@ -105,14 +110,16 @@ class Blob {
     
     int index = (candidates[1] > -1 ? candidates[r.nextInt(2)] : candidates[0]);
     
-    locs.remove(loc);
-    addPixel(x, y, index);
+    locs.remove(loc); // removes this nexel from the array, because it is about to be colored
+    addPixel(x, y, index); // sets the pixel at the given screen coords to the color at index "index" of the pallete's color array
   }
   
-  void addPixel(int x, int y, int c1) {
+  void addPixel(int x, int y, int c1) { // sets the pixel at the given screen coords to the color at index "c1" of the pallete's color array
     color c = palette.colors[c1];
     palette.counts[c1]--;
     setc(x, y, c);
+    
+    // adds the blank pixels around the pixel we just colored to the array of nexels
     if(                 y > 0 &&          getc(x    , y - 1) == colorizer.def) {
       addLoc(x    , y - 1, c);
     }
@@ -140,16 +147,16 @@ class Blob {
     }
   }
   
-  void addLoc(int x, int y, int c) {
+  void addLoc(int x, int y, int c) { // adds the nexel to the nexel array
     locs.add(new Location(x, y, c));
     setc(x, y, colorizer.def ^ 0x01000000);
   }
   
-  void setc(int x, int y, int c) {
+  void setc(int x, int y, int c) { // sets the pixel (in the data array) at the coords to color c
     colorizer.setc(x, y, c);
   }
   
-  color getc(int x, int y) {
+  color getc(int x, int y) { // returns the color of the pixel (in the data array) at the given coords
     return colorizer.getc(x, y);
   }
 }

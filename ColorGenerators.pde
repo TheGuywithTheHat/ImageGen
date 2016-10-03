@@ -24,7 +24,10 @@
   return p;
 }*/
 
-Palette hbRainbow() {
+
+// This has all the methods that generate palletes
+
+Palette hbRainbow() { // a rainbow with constant saturation, and varying hue and brightness; i.e. every hue from bright to black
   Palette p = new Palette();
   colorMode(HSB);
   
@@ -52,7 +55,7 @@ Palette hbRainbow() {
   return p;
 }
 
-Palette hbLightRainbow() {
+Palette hbLightRainbow() { // tries to make a rainbow with colors from bright to white 
   Palette p = new Palette();
   colorMode(HSB);
   
@@ -84,7 +87,7 @@ Palette hbLightRainbow() {
   return p;
 }
 
-Palette lightReds() {
+Palette lightReds() { // pink/red/orangered to white
   Palette p = new Palette();
   colorMode(RGB);
   
@@ -103,7 +106,7 @@ Palette lightReds() {
   return p;
 }
 
-Palette reds() {
+Palette reds() { // magentaish red to orangish red
   Palette p = new Palette();
   colorMode(RGB);
   
@@ -130,7 +133,7 @@ Palette reds() {
   return p;
 }
 
-Palette greens() {
+Palette greens() { // bluish green to yellowish green
   Palette p = new Palette();
   colorMode(RGB);
   
@@ -157,7 +160,7 @@ Palette greens() {
   return p;
 }
 
-Palette blackWhite() {
+Palette blackWhite() { // only two colors, black and white
   Palette p = new Palette();
   colorMode(RGB);
   
@@ -173,7 +176,7 @@ Palette blackWhite() {
   return p;
 }
 
-Palette grayscale() {
+Palette grayscale() { // 255 shades from black to gray to white
   Palette p = new Palette();
   colorMode(RGB);
   
@@ -192,7 +195,7 @@ Palette grayscale() {
   return p;
 }
 
-Palette bluescale() {
+Palette bluescale() { // 255 shades from black to blue to white
   Palette p = new Palette();
   colorMode(RGB);
   
