@@ -67,10 +67,12 @@ class Blob {
       return;
     }
     if(random(1.0) < growthRate) { // color the next nexel. there are many way to select which nexel is the "next"
-      //addPixel(r.nextInt(locs.size())); // selects a completely random nexel
-      //addPixel(r.nextInt(locs.size() - 1)); // selects the newest nexel
-      //addPixel(0); // selects the oldest nexel
-      addPixel(constrain(locs.size() - 1 - r.nextInt(8), 0, locs.size() - 1)); // selects one of the most recent nexels, resulting a close approximation of brownian motion
+      try {
+        addPixel(r.nextInt(locs.size())); // selects a completely random nexel
+        addPixel(locs.size() - 1); // selects the newest nexel
+        //addPixel(0); // selects the oldest nexel
+        //addPixel(constrain(locs.size() - 1 - r.nextInt(8), 0, locs.size() - 1)); // selects one of the most recent nexels, resulting a close approximation of brownian motion
+      } catch(ArrayIndexOutOfBoundsException e) { /* no more to grow */ }
     }
     if(palette.colors.length == 0) { // if we just used the last color, can't grow any more
       canGrow = false;

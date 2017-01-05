@@ -27,7 +27,9 @@ class Colorizer implements Runnable {
     
     // these create all the blobs
     
-    blobs.add(new Blob(rainbow, basicDistc, width / 2, height / 2));
+    blobs.add(new Blob(rainbow, bitXOR, width / 2, height / 2));
+    //blobs.add(new Blob(bw, basicDistc, width / 2, height / 2));
+    //blobs.add(new Blob(gray, basicDistc, width / 2, height / 2));
     
     /*blobs.add(new Blob(gray, bitXOR, width / 3, height / 3));
     blobs.add(new Blob(gray, bitXOR, width / 4, 2 * height / 3));
