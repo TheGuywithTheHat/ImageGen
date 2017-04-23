@@ -49,7 +49,7 @@ If you want to try to understand the code, I tried to document it a bit. `ImageG
     
      1. If the pallette is empty or there are no nexels left, destroy the blob, else:
      2. Pick a nexel using one of several methods (e.g. the oldest one, a random one, one of the 8 newest ones, etc.).
-     3. Select a color from the specified pallette for that nexel, using the specified distance calculator to compare all colors from the pallte to the nexel's "parent's" color.
+     3. Select a color from the specified pallette for that nexel, using the specified distance calculator to compare all colors from the pallette to the nexel's "parent's" color.
      4. Colorize the nexel and turn it into a "colorized pixel" by setting the color in the data array.
      5. Create new "children" nexels from the blanks in the data array around the current pixel.
      6. Tell the new nexels the color of their parent pixel.
