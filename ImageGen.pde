@@ -10,8 +10,19 @@ int colorDepth = 7;
 color[] data;
 
 void setup() { // runs once at the beginning of the program
-  //size(256, 256);
   size(displayWidth, displayHeight);
+  
+  try {
+    surface.setTitle(args[0]);
+    surface.setSize(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+  } catch(ArrayIndexOutOfBoundsException e) {
+    e.printStackTrace();
+  } catch(NumberFormatException e) {
+    e.printStackTrace();
+  } catch(NullPointerException e) {
+    e.printStackTrace();
+  }
+  
   noStroke();
   noSmooth();
   
